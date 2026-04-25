@@ -38,7 +38,7 @@ const router = createBrowserRouter(
       <Route path="/" element={<Layout />}>
       
         <Route path="/" element={<Home />} />
-        <Route path="/admin/login" element={<Login />} />        {/* <Route path="/tournaments" element={<Tournaments />} /> */}
+           {/* <Route path="/tournaments" element={<Tournaments />} /> */}
         <Route path="/tournaments/:id" element={<TournamentDetail />} />
         <Route path="/about" element={<About />} />
         <Route path="/joinUs" element={<JoinUs />} />
@@ -49,6 +49,7 @@ const router = createBrowserRouter(
 
         <Route path="/login" element={<Login />} />
       </Route>
+      <Route path="/admin/login" element={<Login />} />
 
       <Route path="/tournaments/drawdisplay" element={<DrawDisplay />} />
       <Route path="/tournaments" element={<Nissan_Home />} />
