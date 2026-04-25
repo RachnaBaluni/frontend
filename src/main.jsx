@@ -49,7 +49,7 @@ const router = createBrowserRouter(
 
         <Route path="/login" element={<Login />} />
       </Route>
-    <Route path="/admin/login" element={<AdminLogin />} />
+      <Route path="/admin/login" element={<AdminLogin />} />
       <Route path="/tournaments/drawdisplay" element={<DrawDisplay />} />
       <Route path="/tournaments" element={<Nissan_Home />} />
       <Route path="/tournaments/register" element={<Nissan_Register />} />
