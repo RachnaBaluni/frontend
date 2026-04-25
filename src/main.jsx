@@ -47,7 +47,7 @@ const router = createBrowserRouter(
         <Route path="/tournaments/draws" element={<Draws />} />
         <Route path="/tournaments/drawdisplaysetup" element={<DrawDisplaySetup />} />
 
-        <Route path="/Userlogin" element={<Login />} />
+        <Route path="/login" element={<UserLogin />} />
       </Route>
       <Route path="/admin/login" element={<AdminLogin />} />
       <Route path="/tournaments/drawdisplay" element={<DrawDisplay />} />
