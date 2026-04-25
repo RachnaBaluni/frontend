@@ -11,7 +11,7 @@ import { Toaster } from "sonner";
 import "./index.css";
 
 import Home from "./Pages/Home/Home";
-import Login from "./Login/Login.jsx";
+import AdminLogin from "./Login/Login.jsx";
 import Nissan_Home from "./Pages/Nissan_Home/Nissan_Home";
 import Nissan_Register from "./Pages/Nissan_Register/Nissan_Register";
 import Nissan_RegisteredPlayers from "./Pages/Nissan_RegisteredPlayers/Nissan_RegisteredPlayers";
@@ -25,7 +25,7 @@ import About from "./Pages/AboutUs/About";
 import JoinUs from "./Pages/JoinUs/JoinUs";
 import Contact from "./Pages/Contact/Contact";
 import Layout from "./Layout";
-import Login from "./Pages/Login/Login";
+import USerLogin from "./Pages/Login/Login";
 import Result from "./Pages/Result/Result.jsx";
 import Draws from "./Pages/Draws/Draws.jsx";
 import DrawDisplay from "./Pages/DrawDisplay/DrawDisplay.jsx";
@@ -47,10 +47,10 @@ const router = createBrowserRouter(
         <Route path="/tournaments/draws" element={<Draws />} />
         <Route path="/tournaments/drawdisplaysetup" element={<DrawDisplaySetup />} />
 
-        <Route path="/login" element={<Login />} />
-      </Route>
-      <Route path="/admin/login" element={<Login />} />
+        <Route path="/login" element={<UserLogin />} />
 
+      </Route>
+      <Route path="/admin/login" element={<AdminLogin />} />
       <Route path="/tournaments/drawdisplay" element={<DrawDisplay />} />
       <Route path="/tournaments" element={<Nissan_Home />} />
       <Route path="/tournaments/register" element={<Nissan_Register />} />
