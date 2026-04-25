@@ -11,7 +11,7 @@ import { Toaster } from "sonner";
 import "./index.css";
 
 import Home from "./Pages/Home/Home";
-
+import AdminLogin from "./Pages/AdminLogin/Login.jsx";
 import Nissan_Home from "./Pages/Nissan_Home/Nissan_Home";
 import Nissan_Register from "./Pages/Nissan_Register/Nissan_Register";
 import Nissan_RegisteredPlayers from "./Pages/Nissan_RegisteredPlayers/Nissan_RegisteredPlayers";
@@ -36,7 +36,9 @@ const router = createBrowserRouter(
   createRoutesFromElements(
     <>
       <Route path="/" element={<Layout />}>
+      
         <Route path="/" element={<Home />} />
+        <Route path="/admin/login" element={<AdminLogin />} />
         {/* <Route path="/tournaments" element={<Tournaments />} /> */}
         <Route path="/tournaments/:id" element={<TournamentDetail />} />
         <Route path="/about" element={<About />} />
