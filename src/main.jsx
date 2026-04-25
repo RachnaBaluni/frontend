@@ -26,8 +26,8 @@ import JoinUs from "./Pages/JoinUs/JoinUs";
 import Contact from "./Pages/Contact/Contact";
 import Layout from "./Layout";
 import Userlogin from "./Pages/Login/Login.jsx";
-import Result from "./Pages/Result/Result.jsx";
-import Draws from "./Pages/Draws/Draws.jsx";
+//import Result from "./Pages/Result/Result.jsx";
+//import Draws from "./Pages/Draws/Draws.jsx";
 import DrawDisplay from "./Pages/DrawDisplay/DrawDisplay.jsx";
 import DrawDisplaySetup from "./Pages/DrawDisplay/DrawDisplaySetup.jsx";
 
