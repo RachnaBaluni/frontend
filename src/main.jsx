@@ -9,9 +9,9 @@ import { Provider } from "react-redux";
 import store from "./redux/store.js";
 import { Toaster } from "sonner";
 import "./index.css";
-import AdminLogin from "./admin/Login/Login.jsx";
 
 import Home from "./Pages/Home/Home";
+
 import Nissan_Home from "./Pages/Nissan_Home/Nissan_Home";
 import Nissan_Register from "./Pages/Nissan_Register/Nissan_Register";
 import Nissan_RegisteredPlayers from "./Pages/Nissan_RegisteredPlayers/Nissan_RegisteredPlayers";
@@ -25,7 +25,7 @@ import About from "./Pages/AboutUs/About";
 import JoinUs from "./Pages/JoinUs/JoinUs";
 import Contact from "./Pages/Contact/Contact";
 import Layout from "./Layout";
-import Userlogin from "./Pages/Login/Login.jsx";
+import Login from "./Pages/Login/Login";
 import Result from "./Pages/Result/Result.jsx";
 import Draws from "./Pages/Draws/Draws.jsx";
 import DrawDisplay from "./Pages/DrawDisplay/DrawDisplay.jsx";
@@ -36,9 +36,8 @@ const router = createBrowserRouter(
   createRoutesFromElements(
     <>
       <Route path="/" element={<Layout />}>
-      
         <Route path="/" element={<Home />} />
-                {/* <Route path="/tournaments" element={<Tournaments />} /> */}
+        {/* <Route path="/tournaments" element={<Tournaments />} /> */}
         <Route path="/tournaments/:id" element={<TournamentDetail />} />
         <Route path="/about" element={<About />} />
         <Route path="/joinUs" element={<JoinUs />} />
@@ -47,9 +46,9 @@ const router = createBrowserRouter(
         <Route path="/tournaments/draws" element={<Draws />} />
         <Route path="/tournaments/drawdisplaysetup" element={<DrawDisplaySetup />} />
 
-        <Route path="/login" element={<UserLogin />} />
+        <Route path="/login" element={<Login />} />
       </Route>
-      <Route path="/admin/login" element={<AdminLogin />} />
+
       <Route path="/tournaments/drawdisplay" element={<DrawDisplay />} />
       <Route path="/tournaments" element={<Nissan_Home />} />
       <Route path="/tournaments/register" element={<Nissan_Register />} />
