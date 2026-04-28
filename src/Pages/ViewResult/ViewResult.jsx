@@ -1,78 +1,85 @@
 import React, { useState, useEffect, memo } from "react";
 import axios from "axios";
 import styles from "./ViewResult.module.css";
+import { toast } from "sonner";
 
-/* ================= MATCH (READ ONLY) ================= */
-const Match = ({ team, opponentTeam, matchWinnerId, score, roundIndex }) => {
-  const teamDisplayName = !team
-    ? roundIndex === 0
-      ? "BYE"
-      : "TBD"
-    : `${team.partner1?.name || ""} ${
-        team.partner2 ? `& ${team.partner2?.name}` : ""
-      }`;
+/* ================= MATCH ================= */
+const Match = ({
+  team,
+  roundIndex,
+  matchId,
+  slotType,
+  opponentTeam,
+  onUpdateMatch,
+  matchWinnerId,
+}) => {
+  let teamDisplayName;
 
-  const isWinner = team && matchWinnerId === team._id;
+  if (!team) teamDisplayName = roundIndex === 0 ? "BYE" : "TBD";
+  else {
+    teamDisplayName = `${team.partner1?.name || "Unknown"} ${
+      team.partner2 ? `& ${team.partner2?.name}` : ""
+    }`;
+  }
+
+  const isWinner = team && matchWinnerId && team._id === matchWinnerId;
   const isLoser =
-    team && matchWinnerId && opponentTeam?._id === matchWinnerId;
+    team && matchWinnerId && opponentTeam && opponentTeam._id === matchWinnerId;
+
+  const handleClick = async () => {
+    if (!team) return;
+
+    await onUpdateMatch(matchId, {
+      Winner: team._id,
+      Status: "Completed",
+    });
+  };
 
   return (
     <div
       className={`${styles.matchSlot} ${isWinner ? styles.winner : ""} ${
         isLoser ? styles.loser : ""
       }`}
+      onClick={handleClick}
     >
       <div className={styles.teamName}>{teamDisplayName}</div>
-
-      {/* SCORE DISPLAY ONLY */}
-      {team && opponentTeam && (
-        <div className={styles.scoreText}>
-          {score || "—"}
-        </div>
-      )}
     </div>
   );
 };
 
 /* ================= ROUND ================= */
-const Round = memo(({ title, matches }) => {
+const Round = memo(({ title, matches, roundIndex, onUpdateMatch }) => {
   return (
     <div className={styles.roundContainer}>
       <h2 className={styles.roundTitle}>{title}</h2>
 
-      <div className={styles.matchesContainer}>
-        {matches.map((m) => {
-          const scoreParts = m.Score
-            ? m.Score.split(" + ")
-            : ["", ""];
+      {matches.map((m) => (
+        <div key={m._id} className={styles.matchPair}>
+          <div className={styles.matchNumber}>Match {m.Match_number}</div>
 
-          return (
-            <div key={m._id} className={styles.matchPair}>
-              <div className={styles.matchNumber}>
-                Match {m.Match_number}
-              </div>
+          <Match
+            team={m.Team1}
+            opponentTeam={m.Team2}
+            roundIndex={roundIndex}
+            matchId={m._id}
+            slotType="Team1"
+            matchWinnerId={m.Winner}
+            onUpdateMatch={onUpdateMatch}
+          />
 
-              <Match
-                team={m.Team1}
-                opponentTeam={m.Team2}
-                matchWinnerId={m.Winner?._id}
-                score={scoreParts[0]}
-                roundIndex={0}
-              />
+          <div className={styles.vsSeparator}>V/S</div>
 
-              <div className={styles.vsSeparator}>VS</div>
-
-              <Match
-                team={m.Team2}
-                opponentTeam={m.Team1}
-                matchWinnerId={m.Winner?._id}
-                score={scoreParts[1]}
-                roundIndex={0}
-              />
-            </div>
-          );
-        })}
-      </div>
+          <Match
+            team={m.Team2}
+            opponentTeam={m.Team1}
+            roundIndex={roundIndex}
+            matchId={m._id}
+            slotType="Team2"
+            matchWinnerId={m.Winner}
+            onUpdateMatch={onUpdateMatch}
+          />
+        </div>
+      ))}
     </div>
   );
 });
@@ -83,35 +90,42 @@ const ViewResult = () => {
   const [selectedEvent, setSelectedEvent] = useState("");
   const [draws, setDraws] = useState([]);
 
-  /* FETCH EVENTS */
-  useEffect(() => {
-    const load = async () => {
-      const res = await axios.get(
-        `${import.meta.env.VITE_APP_BACKEND_URL}/api/events`
-      );
-      setEvents(res.data.data);
-      setSelectedEvent(res.data.data[0]?._id);
-    };
-    load();
-  }, []);
+  const fetchEvents = async () => {
+    const res = await axios.get(
+      `${import.meta.env.VITE_APP_BACKEND_URL}/api/events`
+    );
+    setEvents(res.data.data);
+    setSelectedEvent(res.data.data[0]?._id);
+  };
 
-  /* FETCH DRAWS */
-  useEffect(() => {
+  const fetchDraws = async () => {
     if (!selectedEvent) return;
 
-    const load = async () => {
-      const res = await axios.get(
-        `${import.meta.env.VITE_APP_BACKEND_URL}/api/nissan-draws/${selectedEvent}`
-      );
-      setDraws(res.data.data);
-    };
-    load();
+    const res = await axios.get(
+      `${import.meta.env.VITE_APP_BACKEND_URL}/api/nissan-draws/${selectedEvent}`
+    );
+    setDraws(res.data.data);
+  };
+
+  useEffect(() => {
+    fetchEvents();
+  }, []);
+
+  useEffect(() => {
+    fetchDraws();
   }, [selectedEvent]);
 
-  /* GROUP BY ROUND */
-  const rounds = Object.entries(
+  const handleUpdateMatch = async (id, data) => {
+    await axios.put(
+      `${import.meta.env.VITE_APP_BACKEND_URL}/api/nissan-draws/${id}`,
+      data
+    );
+    fetchDraws();
+  };
+
+  const rounds = Object.values(
     draws.reduce((acc, d) => {
-      acc[d.Stage] = acc[d.Stage] || [];
+      if (!acc[d.Stage]) acc[d.Stage] = [];
       acc[d.Stage].push(d);
       return acc;
     }, {})
@@ -119,25 +133,33 @@ const ViewResult = () => {
 
   return (
     <div className={styles.manageResultContainer}>
-      <h2>Results</h2>
+      <h1>Manage Results</h1>
 
-      {/* FILTER */}
+      {/* EVENT BUTTONS */}
       <div className={styles.eventFilterButtons}>
         {events.map((e) => (
           <button
             key={e._id}
             onClick={() => setSelectedEvent(e._id)}
-            className={styles.filterButton}
+            className={`${styles.filterButton} ${
+              selectedEvent === e._id ? styles.active : ""
+            }`}
           >
             {e.name}
           </button>
         ))}
       </div>
 
-      {/* SCROLL BRACKET */}
+      {/* BRACKET */}
       <div className={styles.bracketContainer}>
-        {rounds.map(([stage, matches]) => (
-          <Round key={stage} title={stage} matches={matches} />
+        {rounds.map((r, i) => (
+          <Round
+            key={i}
+            title={`Round ${i + 1}`}
+            matches={r}
+            roundIndex={i}
+            onUpdateMatch={handleUpdateMatch}
+          />
         ))}
       </div>
     </div>
