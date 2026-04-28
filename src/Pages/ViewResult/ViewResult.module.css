@@ -1,0 +1,119 @@
+.manageResultContainer {
+  width: 100%;
+  padding: 12px;
+}
+
+/* FILTER BUTTONS */
+.eventFilterButtons {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 8px;
+  margin-bottom: 12px;
+}
+
+.filterButton {
+  padding: 6px 12px;
+  font-size: 13px;
+}
+
+/* 🔥 SCROLL ENABLE */
+.bracketContainer {
+  display: flex;
+  gap: 20px;
+  overflow-x: auto;   /* ✅ scroll */
+  padding: 15px;
+}
+
+/* EACH ROUND */
+.roundContainer {
+  min-width: 260px;   /* 🔥 bigger width */
+  flex-shrink: 0;
+}
+
+/* ROUND TITLE */
+.roundTitle {
+  font-size: 16px;
+  margin-bottom: 10px;
+  font-weight: 600;
+  text-align: center;
+}
+
+/* MATCH LIST */
+.matchesContainer {
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+}
+
+/* MATCH CARD */
+.matchPair {
+  border: 1px solid #ddd;
+  border-radius: 6px;
+  background: #fafafa;
+  padding: 8px;
+}
+
+/* MATCH NUMBER */
+.matchNumber {
+  font-size: 12px;
+  text-align: center;
+  color: #666;
+  margin-bottom: 4px;
+}
+
+/* TEAM SLOT */
+.matchSlot {
+  padding: 8px;
+  font-size: 13px;
+  text-align: center;
+  background: #fff;
+  border-bottom: 1px solid #eee;
+  cursor: pointer;
+}
+
+/* TEAM NAME */
+.teamName {
+  font-size: 13px;
+  font-weight: 600;
+}
+
+/* WIN / LOSE */
+.matchSlot.winner {
+  background-color: #d4f5d4;
+}
+
+.matchSlot.loser {
+  background-color: #f8d4d4;
+}
+
+/* VS */
+.vsSeparator {
+  font-size: 12px;
+  margin: 5px 0;
+  text-align: center;
+  font-weight: bold;
+}
+
+/* INPUT */
+.teamScoreInput {
+  width: 45px;
+  font-size: 12px;
+  padding: 4px;
+  margin-top: 4px;
+}
+
+/* DROPDOWN */
+.matchStatusDropdown {
+  font-size: 11px;
+  padding: 4px;
+  width: 90px;
+  margin: 5px auto;
+  display: block;
+}
+
+/* BUTTON */
+.updateButton {
+  font-size: 12px;
+  padding: 5px;
+  margin-top: 5px;
+}

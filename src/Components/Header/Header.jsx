@@ -31,6 +31,7 @@ const Header = () => {
       // console.log("Attempting to fetch user details from backend..."); // Keep for debugging
       const response = await axios.get(`${API_BASE_URL}/api/member/me`, {
         headers: { "Content-Type": "application/json" },
+         Authorization: `Bearer ${localStorage.getItem("token")}`,
         withCredentials: true,
       });
 
