@@ -115,14 +115,18 @@
 }
 
 /* ================= COLORS ================= */
+/* WINNER - light green */
 .winner {
-  background-color: #86b992 !important;
+  background-color: #62ae74 !important;
   color: white;
+  border: 1px solid #4e9a60;
 }
 
+/* LOSER - soft red (thoda matching) */
 .loser {
-  background-color: #dc3545 !important;
+  background-color: #e57373 !important;
   color: white;
+  border: 1px solid #d32f2f;
 }
 /* ================= VS ================= */
 .vsSeparator {
