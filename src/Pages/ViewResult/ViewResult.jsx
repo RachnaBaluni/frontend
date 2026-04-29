@@ -8,7 +8,7 @@ const Match = ({
   team,
   roundIndex,
   matchId,
-  opponentTeam,
+  
   onUpdateMatch,
   matchWinnerId,
 }) => {
@@ -32,7 +32,11 @@ const Match = ({
     hasResult && team && String(team._id) === String(winnerId);
 
  const isLoser =
-  hasResult && !isWinner; 
+  hasResult &&
+  (
+    (team && String(team._id) !== String(winnerId)) ||
+    (!team) // 👈 BYE bhi red
+  );
   const handleClick = async () => {
     if (!team) return;
 
