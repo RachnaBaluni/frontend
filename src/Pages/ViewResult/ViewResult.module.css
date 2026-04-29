@@ -130,10 +130,11 @@
 }
 /* ================= VS ================= */
 .vsSeparator {
+  display: block;       /* 🔥 force visible */
   text-align: center;
   padding: 4px;
   font-size: 11px;
-  margin: 4px 0;
+  margin: 6px 0;
   background: #eee;
   font-weight: 600;
 }
