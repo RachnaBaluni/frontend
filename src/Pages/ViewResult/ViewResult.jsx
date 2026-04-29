@@ -31,11 +31,8 @@ const Match = ({
   const isWinner =
     hasResult && team && String(team._id) === String(winnerId);
 
-  const isLoser =
-  hasResult &&
-  team &&
-  opponentTeam &&
-  String(opponentTeam._id) === String(winnerId);
+ const isLoser =
+  hasResult && !isWinner; 
   const handleClick = async () => {
     if (!team) return;
 
