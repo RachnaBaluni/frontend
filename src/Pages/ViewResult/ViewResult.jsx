@@ -22,15 +22,20 @@ const Match = ({
       (team.partner2 ? ` & ${team.partner2?.name}` : "");
   }
 
-  // ✅ FIXED (IMPORTANT)
+  // ✅ HANDLE BOTH CASES (string OR object)
+  const winnerId = matchWinnerId?._id || matchWinnerId;
+
+  // ✅ CORRECT LOGIC
   const isWinner =
-    team && matchWinnerId && String(team._id) === String(matchWinnerId);
+    team && winnerId && String(team._id) === String(winnerId);
 
   const isLoser =
-    team &&
-    matchWinnerId &&
-    opponentTeam &&
-    String(opponentTeam._id) === String(matchWinnerId);
+    team && winnerId && String(team._id) !== String(winnerId);
+
+  // 🔍 DEBUG (optional – remove later)
+  console.log("Winner raw:", matchWinnerId);
+  console.log("Winner final:", winnerId);
+  console.log("Team:", team?._id);
 
   const handleClick = async () => {
     if (!team) return;
@@ -40,9 +45,8 @@ const Match = ({
         Winner: team._id,
         Status: "Completed",
       });
-      // optional toast
-    } catch {
-      // optional error
+    } catch (err) {
+      console.log("Update error:", err);
     }
   };
 
