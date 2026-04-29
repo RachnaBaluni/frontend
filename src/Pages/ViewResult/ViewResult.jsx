@@ -34,7 +34,7 @@ const Match = ({
   hasResult &&
   (
     (team && String(team._id) !== String(winnerId)) || // normal loser
-    (!team && roundIndex === 0) // BYE ko bhi loser treat karo
+    (!team) // 🔥 BYE case
   );
 
   const handleClick = async () => {
