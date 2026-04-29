@@ -8,31 +8,42 @@ const Match = ({
   team,
   roundIndex,
   matchId,
-  slotType,
   opponentTeam,
   onUpdateMatch,
   matchWinnerId,
 }) => {
   let teamDisplayName;
 
-  if (!team) teamDisplayName = roundIndex === 0 ? "BYE" : "TBD";
-  else {
-    teamDisplayName = `${team.partner1?.name || "Unknown"} ${
-      team.partner2 ? `& ${team.partner2?.name}` : ""
-    }`;
+  if (!team) {
+    teamDisplayName = roundIndex === 0 ? "BYE" : "TBD";
+  } else {
+    teamDisplayName =
+      (team.partner1?.name || "Unknown") +
+      (team.partner2 ? ` & ${team.partner2?.name}` : "");
   }
 
-  const isWinner = team && matchWinnerId && team._id === matchWinnerId;
+  // ✅ FIXED (IMPORTANT)
+  const isWinner =
+    team && matchWinnerId && String(team._id) === String(matchWinnerId);
+
   const isLoser =
-    team && matchWinnerId && opponentTeam && opponentTeam._id === matchWinnerId;
+    team &&
+    matchWinnerId &&
+    opponentTeam &&
+    String(opponentTeam._id) === String(matchWinnerId);
 
   const handleClick = async () => {
     if (!team) return;
 
-    await onUpdateMatch(matchId, {
-      Winner: team._id,
-      Status: "Completed",
-    });
+    try {
+      await onUpdateMatch(matchId, {
+        Winner: team._id,
+        Status: "Completed",
+      });
+      // optional toast
+    } catch {
+      // optional error
+    }
   };
 
   return (
@@ -46,40 +57,67 @@ const Match = ({
     </div>
   );
 };
-
 /* ================= ROUND ================= */
+const BASE_GAP = 20;
+
 const Round = memo(({ title, matches, roundIndex, onUpdateMatch }) => {
+  const customLayout = {
+    0: { offset: 0, gap: 20 },
+    1: { offset: 120, gap: 180 },
+    2: { offset: 260, gap: 500 },
+    3: { offset: 520, gap: 1200 },
+    4: { offset: 1200, gap: 500 },
+  };
+
+  const offset = customLayout[roundIndex]?.offset || 0;
+  const gap = customLayout[roundIndex]?.gap || BASE_GAP;
+
   return (
     <div className={styles.roundContainer}>
       <h2 className={styles.roundTitle}>{title}</h2>
 
-      {matches.map((m) => (
-        <div key={m._id} className={styles.matchPair}>
-          <div className={styles.matchNumber}>Match {m.Match_number}</div>
+      <div
+        className={styles.matchesWrapper}
+        style={{
+          marginTop: `${offset}px`,
+          gap: `${gap}px`,
+        }}
+      >
+        {matches.map((m) => {
+  console.log("👉 MATCH:", m);
+  console.log("👉 Winner:", m.Winner);
+  console.log("👉 Team1:", m.Team1?._id);
+  console.log("👉 Team2:", m.Team2?._id);
 
-          <Match
-            team={m.Team1}
-            opponentTeam={m.Team2}
-            roundIndex={roundIndex}
-            matchId={m._id}
-            slotType="Team1"
-            matchWinnerId={m.Winner}
-            onUpdateMatch={onUpdateMatch}
-          />
+  return (
+    <div key={m._id} className={styles.matchPair}>
+      <div className={styles.matchNumber}>
+        Match {m.Match_number}
+      </div>
 
-          <div className={styles.vsSeparator}>V/S</div>
+      <Match
+        team={m.Team1}
+        opponentTeam={m.Team2}
+        roundIndex={roundIndex}
+        matchId={m._id}
+        matchWinnerId={m.Winner}
+        onUpdateMatch={onUpdateMatch}
+      />
 
-          <Match
-            team={m.Team2}
-            opponentTeam={m.Team1}
-            roundIndex={roundIndex}
-            matchId={m._id}
-            slotType="Team2"
-            matchWinnerId={m.Winner}
-            onUpdateMatch={onUpdateMatch}
-          />
-        </div>
-      ))}
+      <div className={styles.vsSeparator}>V/S</div>
+
+      <Match
+        team={m.Team2}
+        opponentTeam={m.Team1}
+        roundIndex={roundIndex}
+        matchId={m._id}
+        matchWinnerId={m.Winner}
+        onUpdateMatch={onUpdateMatch}
+      />
+    </div>
+  );
+})}
+      </div>
     </div>
   );
 });
@@ -91,20 +129,28 @@ const ViewResult = () => {
   const [draws, setDraws] = useState([]);
 
   const fetchEvents = async () => {
-    const res = await axios.get(
-      `${import.meta.env.VITE_APP_BACKEND_URL}/api/events`
-    );
-    setEvents(res.data.data);
-    setSelectedEvent(res.data.data[0]?._id);
+    try {
+      const res = await axios.get(
+        `${import.meta.env.VITE_APP_BACKEND_URL}/api/events`
+      );
+      setEvents(res.data.data);
+      setSelectedEvent(res.data.data[0]?._id);
+    } catch {
+      toast.error("Failed to load events");
+    }
   };
 
   const fetchDraws = async () => {
     if (!selectedEvent) return;
 
-    const res = await axios.get(
-      `${import.meta.env.VITE_APP_BACKEND_URL}/api/nissan-draws/${selectedEvent}`
-    );
-    setDraws(res.data.data);
+    try {
+      const res = await axios.get(
+        `${import.meta.env.VITE_APP_BACKEND_URL}/api/nissan-draws/${selectedEvent}`
+      );
+      setDraws(res.data.data);
+    } catch {
+      toast.error("Failed to load draws");
+    }
   };
 
   useEffect(() => {
@@ -123,19 +169,22 @@ const ViewResult = () => {
     fetchDraws();
   };
 
-  const rounds = Object.values(
+  const rounds = Object.entries(
     draws.reduce((acc, d) => {
       if (!acc[d.Stage]) acc[d.Stage] = [];
       acc[d.Stage].push(d);
       return acc;
     }, {})
-  );
+  )
+    .sort((a, b) => Number(a[0]) - Number(b[0]))
+    .map(([_, matches]) =>
+      matches.sort((a, b) => a.Match_number - b.Match_number)
+    );
 
   return (
     <div className={styles.manageResultContainer}>
-      <h1>Manage Results</h1>
+      <h1>View Results</h1>
 
-      {/* EVENT BUTTONS */}
       <div className={styles.eventFilterButtons}>
         {events.map((e) => (
           <button
@@ -150,7 +199,6 @@ const ViewResult = () => {
         ))}
       </div>
 
-      {/* BRACKET */}
       <div className={styles.bracketContainer}>
         {rounds.map((r, i) => (
           <Round
