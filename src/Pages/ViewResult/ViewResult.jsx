@@ -32,10 +32,12 @@ const Match = ({
     hasResult && team && String(team._id) === String(winnerId);
 
   const isLoser =
-  hasResult &&
-  team &&
-  opponentTeam &&
-  String(opponentTeam._id) === String(winnerId);
+  winnerId &&
+  (
+    (team && String(team._id) !== String(winnerId)) // normal loser
+    ||
+    (!team) // 👈 BYE ko bhi loser bana diya
+  );
   const handleClick = async () => {
     if (!team) return;
 
