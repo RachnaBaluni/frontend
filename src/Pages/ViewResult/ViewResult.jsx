@@ -8,7 +8,6 @@ const Match = ({
   team,
   roundIndex,
   matchId,
-  opponentTeam,
   onUpdateMatch,
   matchWinnerId,
 }) => {
@@ -32,12 +31,8 @@ const Match = ({
     hasResult && team && String(team._id) === String(winnerId);
 
   const isLoser =
-  winnerId &&
-  (
-    (team && String(team._id) !== String(winnerId)) // normal loser
-    ||
-    (!team) // 👈 BYE ko bhi loser bana diya
-  );
+    hasResult && team && String(team._id) !== String(winnerId);
+
   const handleClick = async () => {
     if (!team) return;
 
@@ -93,22 +88,22 @@ const Round = memo(({ title, matches, roundIndex, onUpdateMatch }) => {
             </div>
 
             <Match
-  team={m.Team1}
-  opponentTeam={m.Team2}   // 👈 ADD THIS
-  roundIndex={roundIndex}
-  matchId={m._id}
-  matchWinnerId={m.Winner}
-  onUpdateMatch={onUpdateMatch}
-/>
+              team={m.Team1}
+              roundIndex={roundIndex}
+              matchId={m._id}
+              matchWinnerId={m.Winner}
+              onUpdateMatch={onUpdateMatch}
+            />
 
-<Match
-  team={m.Team2}
-  opponentTeam={m.Team1}   // 👈 ADD THIS
-  roundIndex={roundIndex}
-  matchId={m._id}
-  matchWinnerId={m.Winner}
-  onUpdateMatch={onUpdateMatch}
-/>
+            <div className={styles.vsSeparator}>V/S</div>
+
+            <Match
+              team={m.Team2}
+              roundIndex={roundIndex}
+              matchId={m._id}
+              matchWinnerId={m.Winner}
+              onUpdateMatch={onUpdateMatch}
+            />
           </div>
         ))}
       </div>
