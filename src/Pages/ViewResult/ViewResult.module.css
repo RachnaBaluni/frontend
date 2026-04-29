@@ -31,10 +31,7 @@
   display: flex;
   align-items: flex-start;
   gap: 120px;
-
-  padding-left: 40px;
-  padding-right: 40px;
-  align-items: stretch;
+  padding: 0 40px;
   overflow-x: auto;
 }
 
@@ -43,8 +40,6 @@
   display: flex;
   flex-direction: column;
   align-items: center;
-  height: 100%;           /* 🔥 IMPORTANT */
-  min-height: 600px;
   min-width: 260px;
 }
 
@@ -59,13 +54,12 @@
   display: flex;
   flex-direction: column;
   align-items: center;
-  margin: 0;
 }
 
 /* ================= MATCH CARD ================= */
 .matchPair {
   width: 260px;
-  height: 140px; /* 🔥 MUST match JSX MATCH_HEIGHT */
+  margin-bottom: 25px;
 
   background: #f9f9f9;
   border: 1px solid #ddd;
@@ -75,7 +69,7 @@
 
   display: flex;
   flex-direction: column;
-  justify-content: space-between;
+  overflow: visible; /* 🔥 important */
 }
 
 /* ================= MATCH NUMBER ================= */
@@ -93,7 +87,7 @@
 
 /* ================= TEAM SLOT ================= */
 .matchSlot {
-  flex: 1;
+  height: 50px;             /* 🔥 fixed height */
   display: flex;
   align-items: center;
   justify-content: center;
@@ -115,28 +109,30 @@
 }
 
 /* ================= COLORS ================= */
-/* WINNER - light green */
-/* WINNER - very light green */
+
+/* ✅ Winner */
 .winner {
-  background-color: #e6ffe6 !important; /* very light green */
+  background-color: #e6ffe6 !important;
   border: 1px solid #8cff8c;
-  color: #1e4620; /* dark green text (better visibility) */
+  color: #1e4620;
 }
 
-/* LOSER - matching light red */
+/* ✅ Loser + BYE */
 .loser {
   background-color: #ffe6e6 !important;
   border: 1px solid #ff8c8c;
   color: #5a1e1e;
 }
+
 /* ================= VS ================= */
 .vsSeparator {
   text-align: center;
-  padding: 4px;
+  padding: 6px 0;
   font-size: 11px;
-  margin: 6px 0; 
+  margin: 4px 0;
   background: #eee;
   font-weight: 600;
+  flex-shrink: 0; /* 🔥 never hide */
 }
 
 /* ================= RESPONSIVE ================= */
