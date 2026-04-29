@@ -134,6 +134,7 @@
   text-align: center;
   padding: 4px;
   font-size: 11px;
+  margin: 6px 0; 
   background: #eee;
   font-weight: 600;
 }
