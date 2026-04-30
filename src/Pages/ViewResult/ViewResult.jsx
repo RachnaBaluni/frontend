@@ -34,7 +34,7 @@ const Match = ({
   hasResult &&
   (
     (team && String(team._id) !== String(winnerId)) || // normal loser
-    (!team) // 🔥 BYE case
+    (!team) // 
   );
 
   const handleClick = async () => {
@@ -69,6 +69,7 @@ const Round = memo(({ title, matches, roundIndex, onUpdateMatch }) => {
     1: { offset: 120, gap: 180 },
     2: { offset: 260, gap: 500 },
     3: { offset: 520, gap: 1200 },
+    4: {offset :1200, gap: 1500}
   };
 
   const offset = customLayout[roundIndex]?.offset || 0;
