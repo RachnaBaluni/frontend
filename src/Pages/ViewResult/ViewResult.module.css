@@ -1,6 +1,6 @@
 /* ================= CONTAINER ================= */
 .manageResultContainer {
-  padding: 20px;
+  padding: var(--spacing-lg);
   overflow-x: auto;
   width: 100%;
   max-width: 100%;
