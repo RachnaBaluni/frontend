@@ -2,6 +2,8 @@
 .manageResultContainer {
   padding: 20px;
   overflow-x: auto;
+  width: 100%;
+  max-width: 100%;
 }
 
 /* ================= FILTER BUTTONS ================= */
