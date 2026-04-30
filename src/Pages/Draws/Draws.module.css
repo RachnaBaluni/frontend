@@ -37,7 +37,7 @@
   padding: 20px;
   background-color: #f9f9f9;
   border-radius: 10px;
-  transform: scale(0.75);   /* zoom out */
+  transform: scale(0.70);   /* zoom out */
   transform-origin: top center;
 }
 
