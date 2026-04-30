@@ -1,10 +1,13 @@
 /* ================= CONTAINER ================= */
 .manageResultContainer {
+ /* padding: 20px;
+  overflow-x: auto;*/
+  
+  width: 100vw;
+  margin-left: calc(-50vw + 50%);
   padding: var(--spacing-lg);
-  overflow-x: auto;
-  width: 100%;
-  max-width: 100%;
 }
+
 
 /* ================= FILTER BUTTONS ================= */
 .eventFilterButtons {
