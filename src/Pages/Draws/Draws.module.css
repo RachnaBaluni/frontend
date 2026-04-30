@@ -1,7 +1,5 @@
 .manageResultContainer {
   padding: var(--spacing-lg);
-  width: 100%;
-  max-width: 100%;
 }
 
 .title {
@@ -30,7 +28,7 @@
 }
 
 /* =========================
-   BRACKET LAYOUT (FIXED)
+   BRACKET LAYOUT (RESTORED)
    ========================= */
 
 .bracketContainer {
@@ -39,14 +37,10 @@
   padding: 20px;
   background-color: #f9f9f9;
   border-radius: 10px;
-
-  width: 100%;
-  min-width: 100%;
-
-  zoom: 0.75;   /* 🔥 zoom out without breaking layout */
+  zoom : 0.75;
+  transform-origin: top center;
 }
 
-/* Rounds */
 .roundContainer {
   display: flex;
   flex-direction: column;
@@ -71,7 +65,7 @@
 }
 
 /* =========================
-   MATCH CARD
+   MATCH CARD (FIXED HEIGHT)
    ========================= */
 
 .matchPair {
