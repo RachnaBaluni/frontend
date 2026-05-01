@@ -21,10 +21,10 @@ const Match = ({
       (team.partner2 ? ` & ${team.partner2?.name}` : "");
   }
 
-  // ✅ HANDLE OBJECT + STRING + NULL
+  //  HANDLE OBJECT + STRING + NULL
   const winnerId = matchWinnerId?._id || matchWinnerId;
 
-  // ✅ APPLY COLOR ONLY IF RESULT EXISTS
+  //  APPLY COLOR ONLY IF RESULT EXISTS
   const hasResult = !!winnerId;
 
   const isWinner =
