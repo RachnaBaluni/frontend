@@ -171,6 +171,7 @@ const ViewResult = () => {
     .map(([_, matches]) =>
       matches.sort((a, b) => a.Match_number - b.Match_number)
     );
+    console.log(draws.map(d => d.Stage));
 
   return (
     <div className={styles.manageResultContainer}>
@@ -204,6 +205,6 @@ const ViewResult = () => {
     </div>
   );
 };
-console.log(draws.map(d => d.Stage));
+
 
 export default ViewResult;
