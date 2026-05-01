@@ -160,17 +160,22 @@ const ViewResult = () => {
     fetchDraws();
   };
 
-  const rounds = Object.entries(
-    draws.reduce((acc, d) => {
-      if (!acc[d.Stage]) acc[d.Stage] = [];
-      acc[d.Stage].push(d);
-      return acc;
-    }, {})
-  )
-    .sort((a, b) => Number(a[0]) - Number(b[0]))
-    .map(([_, matches]) =>
-      matches.sort((a, b) => a.Match_number - b.Match_number)
-    );
+  const rounds = [];
+
+draws.forEach((d) => {
+  const index = Number(d.Stage) - 1; // ⭐ MAIN FIX
+
+  if (!rounds[index]) {
+    rounds[index] = [];
+  }
+
+  rounds[index].push(d);
+});
+
+// sort matches
+rounds.forEach((r) => {
+  r.sort((a, b) => a.Match_number - b.Match_number);
+});
 
   return (
     <div className={styles.manageResultContainer}>
