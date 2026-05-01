@@ -204,5 +204,6 @@ const ViewResult = () => {
     </div>
   );
 };
+console.log(draws.map(d => d.Stage));
 
 export default ViewResult;
