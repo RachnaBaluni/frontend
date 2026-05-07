@@ -1,0 +1,60 @@
+.container {
+  padding: 20px;
+}
+
+/* HEADER */
+.header {
+  display: grid;
+  grid-template-columns: repeat(4, 1fr);
+}
+
+.header div {
+  background: #e6ffe6;
+  padding: 12px;
+  text-align: center;
+  font-weight: bold;
+  border: 1px solid #ccc;
+}
+
+/* ROW */
+.row {
+  display: grid;
+  grid-template-columns: repeat(4, 1fr);
+}
+
+/* SLOT */
+.slot {
+  border: 1px solid #ddd;
+  padding: 10px;
+  min-height: 120px;
+  background: #fff;
+}
+
+/* CARD */
+.card {
+  border: 1px dashed #bbb;
+  padding: 10px;
+  border-radius: 8px;
+  background: #fafafa;
+  text-align: center;
+}
+
+.time {
+  font-weight: bold;
+  color: blue;
+}
+
+.category {
+  color: green;
+  font-size: 12px;
+}
+
+.vs {
+  color: red;
+  font-weight: bold;
+}
+
+.empty {
+  text-align: center;
+  color: #aaa;
+}
