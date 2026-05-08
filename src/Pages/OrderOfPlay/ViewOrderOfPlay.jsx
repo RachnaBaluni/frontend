@@ -26,7 +26,7 @@ const MatchCard = ({ match }) => {
       ? `${team.partner1?.name || ""}${
           team.partner2 ? " & " + team.partner2?.name : ""
         }`
-      : "TBD";
+      : "BYE";
 
   return (
     <div className={styles.card}>
