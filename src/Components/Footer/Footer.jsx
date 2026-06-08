@@ -61,12 +61,10 @@ const Footer = () => {
           </address>{" "}
           <p>
             Email:{" "}
-            <a href="mailto:utennisa@gmail.com">
-              utennisa@gmail.com{" "}
-            </a>{" "}
+            <a href="mailto:utennisa@gmail.com">utennisa@gmail.com </a>{" "}
           </p>{" "}
           <p>
-            Phone: <a href="tel:+919412047481">+91 9412047481</a> {" "}
+            Phone: <a href="tel:+919412977857">+91 9412977857</a>
           </p>{" "}
         </div>
 

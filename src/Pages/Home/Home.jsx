@@ -12,20 +12,27 @@ import {
   FaMapMarkerAlt,
   FaEnvelope, // Added for email icon
   FaBriefcase, // Added for position icon
-  FaUserCircle, // Added for a generic person icon
+  FaUserCircle,
+  FaPhone, // Added for a generic person icon
 } from "react-icons/fa"; // Make sure to import the new icons
 
 const Home = () => {
   const [events, setEvents] = useState([]);
   const [backgroundImage, setBackgroundImage] = useState("");
 
-  const backgroundImages = ["/banner.jpg", "/bannerHome.jpg", "/img1.jpg"];
+  const backgroundImages = [
+    "/banner.jpg",
+    "/bannerHome.jpg",
+    "/img1.jpg",
+    "tournament-group-1.jpeg",
+    "tournament-group-7.jpeg",
+  ]; // Add more image paths as needed
 
   useEffect(() => {
     const fetchEvents = async () => {
       try {
         const response = await axios.get(
-          `${import.meta.env.VITE_APP_BACKEND_URL}/api/main-events`
+          `${import.meta.env.VITE_APP_BACKEND_URL}/api/main-events`,
         );
         setEvents(response.data.data.slice(0, 3)); // Get first 3 events
       } catch (error) {
@@ -33,31 +40,53 @@ const Home = () => {
       }
     };
 
-    const setRandomBackgroundImage = () => {
-      const randomImage =
-        backgroundImages[Math.floor(Math.random() * backgroundImages.length)];
-      setBackgroundImage(`url(${randomImage})`);
-    };
-
     fetchEvents();
-    setRandomBackgroundImage();
+
+    let currentIndex = 0;
+
+    setBackgroundImage(`url(${backgroundImages[0]})`);
+
+    const interval = setInterval(() => {
+      currentIndex = (currentIndex + 1) % backgroundImages.length;
+      setBackgroundImage(`url(${backgroundImages[currentIndex]})`);
+    }, 4000);
+
+    return () => clearInterval(interval);
   }, []);
   // Data for Key Personnel
   const keyPersonnel = [
     {
       name: "Ashok Kumar",
       position: "President",
-      contact: "ashokkumar@bccinfra.com",
+      mobile: "9818840900",
+      contact: "ashokips89@gmail.com",
     },
     {
       name: "Sumit Goel",
       position: "Secretary",
+      mobile: "9412977857",
       contact: "goelsumit3@rediffmail.com",
     },
     {
       name: "Dinesh Nagpal",
       position: "Treasurer",
+      mobile: "7500789789",
       contact: "dineshnagpal@yahoo.com",
+    },
+    {
+      name: "S. P. Singh",
+      position: "President",
+      contact: "spsingh@bccinfra.com",
+    },
+    {
+      name: "Vijendra Chauhan",
+      position: "Secretary",
+      contact: "vijendrachauhan@gmail.com",
+    },
+    {
+      name: "Shailendra Kumar Sharma",
+      position: "Treasurer",
+      contact: "jaimatadi_sk@yahoo.com",
     },
   ];
 
@@ -69,9 +98,11 @@ const Home = () => {
           style={{ backgroundImage: backgroundImage }}
         >
           <h1>Welcome to Uttaranchal Tennis Association</h1>
-          <p>Promoting tennis excellence in the heart of the Himalayas.</p>
+          <p>
+            Promoting tennis excellence in the heart of the Himalayas since
+            2001.
+          </p>
           <Link to="/tournaments">Explore Tournaments</Link>
-          
         </div>
 
         {/* <section className={styles.upcomingEvents}>
@@ -135,6 +166,12 @@ const Home = () => {
                   <FaBriefcase className={styles.detailIcon} />{" "}
                   {person.position}
                 </p>
+                {person.mobile && (
+                  <p className={styles.personnelMobile}>
+                    <FaPhone className={styles.detailIcon} />
+                    <a href={`tel:${person.mobile}`}>{person.mobile}</a>
+                  </p>
+                )}
                 <p className={styles.personnelContact}>
                   <FaEnvelope className={styles.detailIcon} />{" "}
                   <a href={`mailto:${person.contact}`}>{person.contact}</a>

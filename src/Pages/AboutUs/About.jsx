@@ -27,7 +27,7 @@ const KeyPersonnelTable = () => (
               President
             </td>
             <td className={`${styles.tableCell} ${styles.colContact}`}>
-              ashokkumar@bccinfra.com
+              ashokips89@gmail.com
             </td>
           </tr>
           <tr className={styles.tableRow}>
@@ -94,7 +94,7 @@ const About = () => {
           {/* History Section */}
           <h2 className={styles.sectionHeading}>History</h2>
           <p className={styles.sectionParagraph}>
-            Founded in 2001, the Uttaraanchal Tennis Association has a rich
+            Founded in 2001, the Uttaranchal Tennis Association has a rich
             history of promoting tennis in the region. Over the years, UTA has
             organized numerous state-level and national tournaments, providing a
             platform for local talent to showcase their skills. The association
@@ -111,22 +111,53 @@ const About = () => {
           <div className={styles.imageGridContainer}>
             <div className={styles.imageGrid}>
               <div
-                className={styles.gridImageLarge}
-                style={{
-                  backgroundImage: 'url("/man2.png")',
-                }}
+                className={styles.gridImage}
+                style={{ backgroundImage: 'url("/man2.png")' }}
               ></div>
+
               <div
-                className={styles.gridImageSmall1}
-                style={{
-                  backgroundImage: 'url("/amn.png")',
-                }}
+                className={styles.gridImage}
+                style={{ backgroundImage: 'url("/amn.png")' }}
               ></div>
+
               <div
-                className={styles.gridImageSmall2}
-                style={{
-                  backgroundImage: 'url("/group.png")',
-                }}
+                className={styles.gridImage}
+                style={{ backgroundImage: 'url("/group.png")' }}
+              ></div>
+
+              <div
+                className={styles.gridImage}
+                style={{ backgroundImage: 'url("/tournament-group-1.jpeg")' }}
+              ></div>
+
+              <div
+                className={styles.gridImage}
+                style={{ backgroundImage: 'url("/tournament-group-2.jpeg")' }}
+              ></div>
+
+              <div
+                className={styles.gridImage}
+                style={{ backgroundImage: 'url("/tournament-group-3.jpeg")' }}
+              ></div>
+
+              <div
+                className={styles.gridImage}
+                style={{ backgroundImage: 'url("/tournament-group-4.jpeg")' }}
+              ></div>
+
+              <div
+                className={styles.gridImage}
+                style={{ backgroundImage: 'url("/tournament-group-5.jpeg")' }}
+              ></div>
+
+              <div
+                className={styles.gridImage}
+                style={{ backgroundImage: 'url("/tournament-group-6.jpeg")' }}
+              ></div>
+
+              <div
+                className={styles.gridImage}
+                style={{ backgroundImage: 'url("/tournament-group-7.jpeg")' }}
               ></div>
             </div>
           </div>

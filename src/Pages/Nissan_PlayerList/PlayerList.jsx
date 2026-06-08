@@ -15,7 +15,7 @@ const PlayerList = () => {
         `${import.meta.env.VITE_APP_BACKEND_URL}/api/player/details-frontend`,
         {
           withCredentials: true,
-        }
+        },
       );
       setPlayers(res.data.data);
       setLoading(false);
@@ -25,10 +25,9 @@ const PlayerList = () => {
     }
   };
 
- useEffect(() => {
-   console.log("Players after update:", players);
- }, [players]);
-
+  useEffect(() => {
+    console.log("Players after update:", players);
+  }, [players]);
 
   useEffect(() => {
     fetchPlayers();
