@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from "react";
-import { Link } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 import styles from "./Home.module.css";
 import ListItem from "../../Components/ListItem.jsx/ListItem";
 import axios from "axios";
@@ -17,6 +17,8 @@ import {
 } from "react-icons/fa"; // Make sure to import the new icons
 
 const Home = () => {
+  const navigate = useNavigate();
+
   const [events, setEvents] = useState([]);
   const [backgroundImage, setBackgroundImage] = useState("");
 
@@ -135,7 +137,11 @@ const Home = () => {
               <h3>Coaches</h3>
               <p>Get Certified and coach aspiring players</p>
             </div>
-            <div className={styles.gridItem}>
+            <div
+              className={styles.gridItem}
+              onClick={() => navigate("/academies")}
+              style={{ cursor: "pointer" }}
+            >
               <FaBuilding className={styles.gridIcon} />
               <h3>Academies</h3>
               <p>Affiliate your Academy with us</p>
