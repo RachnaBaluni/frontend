@@ -14,7 +14,9 @@ export default function Academies() {
       const res = await axios.get(
         `${import.meta.env.VITE_APP_BACKEND_URL}/api/academies`,
       );
-
+      console.log("Full Response:", res.data);
+      console.log("Academies:", res.data.academies);
+      console.log("Count:", res.data.academies?.length);
       setAcademies(res.data.academies);
     } catch (error) {
       console.log(error);
