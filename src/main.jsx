@@ -11,7 +11,7 @@ import { Toaster } from "sonner";
 import "./index.css";
 
 import Home from "./Pages/Home/Home";
-
+import Academies from "./Pages/Academies/Academies";
 import Nissan_Home from "./Pages/Nissan_Home/Nissan_Home";
 import Nissan_Register from "./Pages/Nissan_Register/Nissan_Register";
 import Nissan_RegisteredPlayers from "./Pages/Nissan_RegisteredPlayers/Nissan_RegisteredPlayers";
@@ -33,7 +33,6 @@ import DrawDisplay from "./Pages/DrawDisplay/DrawDisplay.jsx";
 import DrawDisplaySetup from "./Pages/DrawDisplay/DrawDisplaySetup.jsx";
 import ViewOrderOfPlay from "./Pages/OrderOfPlay/ViewOrderOfPlay.jsx";
 
-
 const router = createBrowserRouter(
   createRoutesFromElements(
     <>
@@ -44,11 +43,18 @@ const router = createBrowserRouter(
         <Route path="/about" element={<About />} />
         <Route path="/joinUs" element={<JoinUs />} />
         <Route path="/contact" element={<Contact />} />
+        <Route path="/academies" element={<Academies />} />
         <Route path="/tournaments/results" element={<Result />} />
-       <Route path="/tournaments/viewresults" element={<ViewResult />} />
+        <Route path="/tournaments/viewresults" element={<ViewResult />} />
         <Route path="/tournaments/draws" element={<Draws />} />
-        <Route path="/tournaments/drawdisplaysetup" element={<DrawDisplaySetup />} />
-        <Route path="/tournaments/view-order-play" element={<ViewOrderOfPlay />}/>
+        <Route
+          path="/tournaments/drawdisplaysetup"
+          element={<DrawDisplaySetup />}
+        />
+        <Route
+          path="/tournaments/view-order-play"
+          element={<ViewOrderOfPlay />}
+        />
         <Route path="/login" element={<Login />} />
       </Route>
 
@@ -66,13 +72,13 @@ const router = createBrowserRouter(
       <Route path="/tournaments/login" element={<Nissan_Login />} />
       <Route path="/tournaments/login/:id" element={<Nissan_Login_Page />} />
       {/* <Route path="*" element={<WrongURL />} /> */}
-    </>
-  )
+    </>,
+  ),
 );
 
 createRoot(document.getElementById("root")).render(
   <Provider store={store}>
     <Toaster richColors position="top-center" />
     <RouterProvider router={router} />
-  </Provider>
+  </Provider>,
 );
