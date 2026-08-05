@@ -174,9 +174,10 @@ const RegisterPage1 = ({ formData, setFormData, handleNext }) => {
           name="foodPref"
           id="foodPref"
           value={formData.foodPref}
-          onChange={(e) =>
-            setFormData({ ...formData, foodPref: e.target.value })
-          }
+          onChange={(e) => {
+            console.log("Selected food preference:", e.target.value);
+            setFormData({ ...formData, foodPref: e.target.value });
+          }}
           className={styles.select}
         >
           <option value="">Select Food Preference</option>
