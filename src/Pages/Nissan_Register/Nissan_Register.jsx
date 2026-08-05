@@ -14,7 +14,7 @@ const Register = () => {
   const [currentStep, setCurrentStep] = useState(1);
   const [loading, setLoading] = useState(false);
   const [errors, setErrors] = useState({});
-
+  const [registrationFields, setRegistrationFields] = useState({});
   const [formData, setFormData] = useState({
     name: "",
     whatsappNumber: "",
@@ -39,13 +39,30 @@ const Register = () => {
         {
           headers: { "Content-Type": "application/json" },
           withCredentials: true,
-        }
+        },
       );
       if (res.data.success) {
         setEvents(res.data.data);
       }
     } catch (error) {
       console.log("Error fetching events:", error);
+    }
+  };
+
+  const getRegistrationFields = async () => {
+    try {
+      const res = await axios.get(
+        `${import.meta.env.VITE_APP_BACKEND_URL}/api/registration-fields`,
+        {
+          withCredentials: true,
+        },
+      );
+
+      if (res.data.success) {
+        setRegistrationFields(res.data.data);
+      }
+    } catch (error) {
+      console.log("Error fetching registration fields:", error);
     }
   };
 
@@ -56,7 +73,7 @@ const Register = () => {
         {
           headers: { "Content-Type": "application/json" },
           withCredentials: true,
-        }
+        },
       );
       if (res.data.success) {
         setPlayers(res.data.data);
@@ -70,6 +87,7 @@ const Register = () => {
     console.log("CSS MODULE STYLES: ", styles);
     getEvents();
     getPlayers();
+    getRegistrationFields();
     window.scrollTo(0, 0);
   }, []);
 
@@ -133,6 +151,7 @@ const Register = () => {
               formData={formData}
               handleNext={handleNext}
               setFormData={setFormData}
+              registrationFields={registrationFields}
             />
           )}
         </section>

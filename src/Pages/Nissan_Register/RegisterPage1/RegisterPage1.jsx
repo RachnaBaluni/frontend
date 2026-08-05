@@ -1,7 +1,19 @@
 import React, { useState } from "react";
 import styles from "./RegisterPage1.module.css"; // Import the CSS module
 
-const RegisterPage1 = ({ formData, setFormData, handleNext }) => {
+const RegisterPage1 = ({
+  formData,
+  setFormData,
+  handleNext,
+  registrationFields,
+}) => {
+  const fields = registrationFields || {
+    shirtSize: true,
+    foodPreference: true,
+    accommodation: true,
+    feePaid: true,
+    transactionDetails: true,
+  };
   const sizeOptions = ["XS", "S", "M", "L", "XL", "XXL"];
   const foodOptions = ["Veg", "Non-Veg", "I Won't Be There"];
 
@@ -23,18 +35,28 @@ const RegisterPage1 = ({ formData, setFormData, handleNext }) => {
     if (!formData.city.trim()) {
       newErrors.city = "City is required.";
     }
-    if (!formData.shirtSize) {
+    if (fields.shirtSize && !formData.shirtSize) {
       newErrors.shirtSize = "Shirt Size is required.";
     }
-    // if (!formData.shortSize) {
-    //   newErrors.shortSize = "Short Size is required.";
-    // }
-    if (!formData.foodPref) {
+
+    if (fields.foodPreference && !formData.foodPref) {
       newErrors.foodPref = "Food Preference is required.";
     }
-    if (formData.feePaid && !formData.transactionDetails.trim()) {
-      newErrors.transactionDetails =
-        "Transaction Details are required if fee is paid.";
+
+    if (fields.accommodation && formData.stay === undefined) {
+      newErrors.stay = "Accommodation selection is required.";
+    }
+
+    if (fields.feePaid && formData.feePaid === undefined) {
+      newErrors.feePaid = "Fee Paid selection is required.";
+    }
+
+    if (
+      fields.transactionDetails &&
+      formData.feePaid &&
+      !formData.transactionDetails.trim()
+    ) {
+      newErrors.transactionDetails = "Transaction Details are required.";
     }
 
     setErrors(newErrors);
@@ -118,30 +140,32 @@ const RegisterPage1 = ({ formData, setFormData, handleNext }) => {
         />
         {errors.city && <span className={styles.errorText}>{errors.city}</span>}
       </section>
-      <section className={styles.formSection}>
-        <label htmlFor="shirtSize" className={styles.label}>
-          Shirt Size
-        </label>
-        <select
-          name="shirtSize"
-          id="shirtSize"
-          value={formData.shirtSize}
-          onChange={(e) =>
-            setFormData({ ...formData, shirtSize: e.target.value })
-          }
-          className={styles.select} // Applied select class
-        >
-          <option value="">Select Shirt Size</option>
-          {sizeOptions.map((size) => (
-            <option key={size} value={size}>
-              {size}
-            </option>
-          ))}
-        </select>
-        {errors.shirtSize && (
-          <span className={styles.errorText}>{errors.shirtSize}</span>
-        )}
-      </section>
+      {fields.shirtSize && (
+        <section className={styles.formSection}>
+          <label htmlFor="shirtSize" className={styles.label}>
+            Shirt Size
+          </label>
+          <select
+            name="shirtSize"
+            id="shirtSize"
+            value={formData.shirtSize}
+            onChange={(e) =>
+              setFormData({ ...formData, shirtSize: e.target.value })
+            }
+            className={styles.select} // Applied select class
+          >
+            <option value="">Select Shirt Size</option>
+            {sizeOptions.map((size) => (
+              <option key={size} value={size}>
+                {size}
+              </option>
+            ))}
+          </select>
+          {errors.shirtSize && (
+            <span className={styles.errorText}>{errors.shirtSize}</span>
+          )}
+        </section>
+      )}
       {/* <section className={styles.formSection}>
         <label htmlFor="shortSize" className={styles.label}>
           Short Size
@@ -166,44 +190,47 @@ const RegisterPage1 = ({ formData, setFormData, handleNext }) => {
           <span className={styles.errorText}>{errors.shortSize}</span>
         )}
       </section> */}
-      <section className={styles.formSection}>
-        <label htmlFor="foodPref" className={styles.label}>
-          Food Preference
-        </label>
-        <select
-          name="foodPref"
-          id="foodPref"
-          value={formData.foodPref}
-          onChange={(e) => {
-            console.log("Selected food preference:", e.target.value);
-            setFormData({ ...formData, foodPref: e.target.value });
+      {fields.foodPreference && (
+        <section className={styles.formSection}>
+          <label htmlFor="foodPref" className={styles.label}>
+            Food Preference
+          </label>
+          <select
+            name="foodPref"
+            id="foodPref"
+            value={formData.foodPref}
+            onChange={(e) => {
+              console.log("Selected food preference:", e.target.value);
+              setFormData({ ...formData, foodPref: e.target.value });
+            }}
+            className={styles.select}
+          >
+            <option value="">Select Food Preference</option>
+            {foodOptions.map((food) => (
+              <option key={food} value={food}>
+                {food}
+              </option>
+            ))}
+          </select>
+          {errors.foodPref && (
+            <span className={styles.errorText}>{errors.foodPref}</span>
+          )}
+        </section>
+      )}
+      {fields.accommodation && (
+        <section
+          className={styles.formSection}
+          style={{
+            display: "flex",
+            flexWrap: "wrap",
+            gap: "10px",
+            alignItems: "center",
           }}
-          className={styles.select}
         >
-          <option value="">Select Food Preference</option>
-          {foodOptions.map((food) => (
-            <option key={food} value={food}>
-              {food}
-            </option>
-          ))}
-        </select>
-        {errors.foodPref && (
-          <span className={styles.errorText}>{errors.foodPref}</span>
-        )}
-      </section>
-      <section
-        className={styles.formSection}
-        style={{
-          display: "flex",
-          flexWrap: "wrap",
-          gap: "10px",
-          alignItems: "center",
-        }}
-      >
-        <label htmlFor="stay" className={styles.checkboxLabel}>
-          {" "}
-          {/* Applied checkbox label class */}
-          {/* <input
+          <label htmlFor="stay" className={styles.checkboxLabel}>
+            {" "}
+            {/* Applied checkbox label class */}
+            {/* <input
             type="checkbox"
             name="stay"
             id="stay"
@@ -213,44 +240,46 @@ const RegisterPage1 = ({ formData, setFormData, handleNext }) => {
             }
             className={styles.checkboxInput} // Applied checkbox input class
           />{" "} */}
-          Need Accommodation
-        </label>
+            Need Accommodation
+          </label>
 
-        <input
-          name="stay"
-          type="radio"
-          value="true"
-          id="yes"
-          checked={formData.stay === true}
-          onChange={() => setFormData({ ...formData, stay: true })}
-        />
-        <label htmlFor="yes" style={{ margin: "0 10px 0 0 " }}>
-          Yes
-        </label>
+          <input
+            name="stay"
+            type="radio"
+            value="true"
+            id="yes"
+            checked={formData.stay === true}
+            onChange={() => setFormData({ ...formData, stay: true })}
+          />
+          <label htmlFor="yes" style={{ margin: "0 10px 0 0 " }}>
+            Yes
+          </label>
 
-        <input
-          name="stay"
-          type="radio"
-          value="false"
-          id="no"
-          checked={formData.stay === false}
-          onChange={() => setFormData({ ...formData, stay: false })}
-        />
-        <label htmlFor="no" style={{ margin: 0 }}>
-          No
-        </label>
-      </section>
-      <section
-        className={styles.formSection}
-        style={{
-          display: "flex",
-          flexWrap: "wrap",
-          gap: "10px",
-          alignItems: "center",
-        }}
-      >
-        <label htmlFor="feePaid" className={styles.checkboxLabel}>
-          {/* <input
+          <input
+            name="stay"
+            type="radio"
+            value="false"
+            id="no"
+            checked={formData.stay === false}
+            onChange={() => setFormData({ ...formData, stay: false })}
+          />
+          <label htmlFor="no" style={{ margin: 0 }}>
+            No
+          </label>
+        </section>
+      )}
+      {fields.feePaid && (
+        <section
+          className={styles.formSection}
+          style={{
+            display: "flex",
+            flexWrap: "wrap",
+            gap: "10px",
+            alignItems: "center",
+          }}
+        >
+          <label htmlFor="feePaid" className={styles.checkboxLabel}>
+            {/* <input
             type="checkbox"
             name="feePaid"
             id="feePaid"
@@ -260,34 +289,35 @@ const RegisterPage1 = ({ formData, setFormData, handleNext }) => {
             }
             className={styles.checkboxInput}
           />{" "} */}
-          Fee Paid
-        </label>
+            Fee Paid
+          </label>
 
-        <input
-          name="feePaid"
-          type="radio"
-          value="true"
-          id="paidyes"
-          checked={formData.feePaid === true}
-          onChange={() => setFormData({ ...formData, feePaid: true })}
-        />
-        <label htmlFor="paidyes" style={{ margin: "0 10px 0 0 " }}>
-          Yes
-        </label>
+          <input
+            name="feePaid"
+            type="radio"
+            value="true"
+            id="paidyes"
+            checked={formData.feePaid === true}
+            onChange={() => setFormData({ ...formData, feePaid: true })}
+          />
+          <label htmlFor="paidyes" style={{ margin: "0 10px 0 0 " }}>
+            Yes
+          </label>
 
-        <input
-          name="feePaid"
-          type="radio"
-          value="false"
-          id="paidno"
-          checked={formData.feePaid === false}
-          onChange={() => setFormData({ ...formData, feePaid: false })}
-        />
-        <label htmlFor="paidno" style={{ margin: 0 }}>
-          No
-        </label>
-      </section>
-      {formData.feePaid && (
+          <input
+            name="feePaid"
+            type="radio"
+            value="false"
+            id="paidno"
+            checked={formData.feePaid === false}
+            onChange={() => setFormData({ ...formData, feePaid: false })}
+          />
+          <label htmlFor="paidno" style={{ margin: 0 }}>
+            No
+          </label>
+        </section>
+      )}
+      {fields.transactionDetails && formData.feePaid && (
         <section className={styles.formSection}>
           <label htmlFor="transactionDetails" className={styles.label}>
             Transaction Details
