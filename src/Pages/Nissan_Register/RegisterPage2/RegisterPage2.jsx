@@ -63,6 +63,8 @@ const RegisterPage2 = ({
           value={formData.event1 || ""}
           onChange={(e) => setEvent1(e.target.value || null)}
         >
+          <option value="">-- Select an Event --</option>
+
           {[...events]
             .sort((a, b) => a.name.localeCompare(b.name))
             .map((event) => (
