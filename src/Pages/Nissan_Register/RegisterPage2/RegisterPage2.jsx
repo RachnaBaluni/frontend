@@ -18,11 +18,15 @@ const RegisterPage2 = ({
 
   const setEvent1 = (event1Id) => {
     setFormData({ ...formData, event1: event1Id, partner1: null });
-    setEvent2List(events.filter((event) => event._id !== event1Id));
+    setEvent2List(
+      events
+        .filter((event) => event._id !== event1Id)
+        .sort((a, b) => a.name.localeCompare(b.name)),
+    );
     setPlayersEvent1List(
       players
         .filter((player) => player.eventId._id === event1Id && !player.partner2)
-        .sort((a, b) => a.partner1.name.localeCompare(b.partner1.name))
+        .sort((a, b) => a.partner1.name.localeCompare(b.partner1.name)),
     );
     setErrors((prev) => ({ ...prev, event1: null }));
   };
@@ -33,7 +37,7 @@ const RegisterPage2 = ({
     setPlayersEvent2List(
       players
         .filter((player) => player.eventId._id === event2Id && !player.partner2)
-        .sort((a, b) => a.partner1.name.localeCompare(b.partner1.name))
+        .sort((a, b) => a.partner1.name.localeCompare(b.partner1.name)),
     );
   };
 
@@ -59,12 +63,13 @@ const RegisterPage2 = ({
           value={formData.event1 || ""}
           onChange={(e) => setEvent1(e.target.value || null)}
         >
-          <option value="">-- Select an Event --</option>
-          {events.map((event) => (
-            <option key={event._id} value={event._id}>
-              {event.name}
-            </option>
-          ))}
+          {[...events]
+            .sort((a, b) => a.name.localeCompare(b.name))
+            .map((event) => (
+              <option key={event._id} value={event._id}>
+                {event.name}
+              </option>
+            ))}
         </select>
         {errors.event1 && <div className={styles.error}>{errors.event1}</div>}
       </div>
@@ -101,11 +106,13 @@ const RegisterPage2 = ({
           onChange={(e) => setEvent2(e.target.value || null)}
         >
           <option value="">-- Select an Event --</option>
-          {event2List.map((event) => (
-            <option key={event._id} value={event._id}>
-              {event.name}
-            </option>
-          ))}
+          {[...event2List]
+            .sort((a, b) => a.name.localeCompare(b.name))
+            .map((event) => (
+              <option key={event._id} value={event._id}>
+                {event.name}
+              </option>
+            ))}
         </select>
       </div>
 
